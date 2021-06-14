@@ -103,15 +103,15 @@ reg.store(DatabaseConnectionString("db=foo;user=root;password=secret"))
   
 ## Differences with this approach 
 
-* **explicit `registry`** - the most obvious difference with say Spring is that 
+* **explicit `Registry`** - the most obvious difference with say Spring is that 
   whereas as in Spring there is an `ApplicationContext` from which we retrieve 
   wired objects (that is, class instances that have all their dependencies resolved and
   injected) in this model we explicitly wire-up the dependencies via the constructor. 
 * **explicit `request` scoping** - in the richer frameworks there are lifecycle events to 
-  manage dependencies that are tied to other scopes, such as RequestScoped which is tied 
-  to an HttpServletRequest. In the `Registry` model they must be wired up manually with the selected MVC 
+  manage dependencies that are tied to other scopes, such as `RequestScoped` which is linked 
+  to an `HttpServletRequest`. In the `Registry` model they must be wired up manually with the selected MVC 
   framework, though this is rarely more than a few lines of code.
-* **no startup validation**. Unlike Spring or Google Guice, there is no explicit validation at 
+* **no startup validation** - unlike say Spring or Google Guice, there is no explicit validation at 
   startup. Any problems will only surface once an instance is requested. I will argue that 
   is actually a benefit - the registry pattern is so lightweight it can be used in any unit 
   test and so any problems are likely caught early. 
