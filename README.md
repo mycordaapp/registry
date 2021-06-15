@@ -66,7 +66,7 @@ There are two basic rules to remember:
   obviously makes use of generic interfaces and classes problematic. In some cases it might be necessary to construct a
   simple wrapper to avoid ambiguity.
 
-As an example, we now include shape interfaces and store some implementing classes in the `Registry`.
+As an example, we now include shape interfaces, and store some implementing classes in the `Registry`.
 
 ```kotlin
 interface Square
@@ -99,8 +99,9 @@ val triangle = reg.get(Triangle::class.java)
 val triangle = reg.getOrElse(Triangle::class.java, ATriangle())
 ```
 
-In practice this is rarely a problem for well-designed class hierarchies with clear and unambiguous names. But, if
-necessary, just create a simple wrapping class:
+Common interfaces and classes don't work well as they are too likely to be ambiguous. In practice this is rarely a
+problem for well-designed class hierarchies with clear and unambiguous names. But, if necessary, just create a simple
+wrapping class:
 
 ```kotlin
 // Don't store "String" - it's not clear what the String refers to and 
@@ -115,7 +116,8 @@ reg.store(DatabaseConnectionString("db=foo;user=root;password=secret"))
 ## Benefits of this approach
 
 * **minimal dependencies** - `Registry` is just one hundred or so lines of code.
-* **very lightweight** - no hidden startup time while classes are scanned for annotations.
+* **very lightweight** - no hidden startup time while classes are scanned for annotations and a dependency tree is built
+  in memory
 * **encourages good design** - some will argue this point, but my personal experience has been that explicitly wiring up
   DI in the source code leads to better designs - the "auto magic", convention driven frameworks like Spring can lead to
   hidden complexities.
