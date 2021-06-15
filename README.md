@@ -13,7 +13,7 @@ gradle:
 \\ add jitpack repo 
 maven { url "https://jitpack.io" }
 
-\\ include the depenency 
+\\ include the dependency 
 implementation 'com.github.mycordaapp:registry:0.0.2'
 ```
 
@@ -66,15 +66,17 @@ There are two basic rules to remember:
   obviously makes use of generic interfaces and classes problematic. In some cases it might be necessary to construct a
   simple wrapper to avoid ambiguity.
 
-As an example, we now include interfaces Square and Circle and store some implementing classes in the `Registry`.
+As an example, we now include shape interfaces and store some implementing classes in the `Registry`.
 
 ```kotlin
 interface Square
 interface Circle
+interface Triangle
 
 class GreenSquare : GreenThing(), Square {}
 class GreenCircle : GreenThing(), Circle {}
 class ASquare : Square {}
+class ATriangle : Triangle {}
 
 reg.store(GreenSquare()).store(GreenCircle()).store(ASquare())
 
@@ -84,11 +86,17 @@ val circle = reg.get(Circle::class.java)
 // fine, only one BlueThing
 val blueThing = reg.get(BlueThing::class.java)
 
-// fails - what type of Square, GreenSquare or ASquare?
+// fails - what type of Square. GreenSquare or ASquare?
 val square = reg.get(Square::class.java)
 
-// fails - what type of GreenThing, GreenSquare or GreenCircle?  
-val greenThing = reg.get(GreenThing::class.java)
+// fails - there are no Triangles enSquare, GreenCircle or just a plain old GreenThing?  
+val greenThing = reg.get(Triangle::class.java)
+
+// fails - no Triangle stored in the repo 
+val triangle = reg.get(Triangle::class.java)
+
+// fine - we use the default ATriangle
+val triangle = reg.getOrElse(Triangle::class.java, ATriangle())
 ```
 
 In practice this is rarely a problem for well-designed class hierarchies with clear and unambiguous names. But, if
