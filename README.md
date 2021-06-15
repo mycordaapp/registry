@@ -1,5 +1,22 @@
 # The 'Registry' Dependency Injection (DI) Pattern 
 
+## TLDR;
+
+An incredibly simple DI pattern, that essential stores all dependencies in HashMap 
+and supports lookup either by class or interface name.
+
+Deployed to [jitpack](https://jitpack.io/com/github/mycordaapp/registry/0.0.2). 
+To include in your project, if using gradle:
+```groovy 
+
+\\ add jitpack repo 
+maven { url "https://jitpack.io" }
+
+\\ include the depenency 
+implementation 'com.github.mycordaapp:registry:0.0.2'
+```
+
+
 ## How it works
 
 The `Registry` simplifies a "framework less" pattern for DI whereby the dependencies 
