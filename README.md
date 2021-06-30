@@ -1,5 +1,7 @@
 # The 'Registry' Dependency Injection (DI) Pattern
 
+[![Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry)
+
 ## TLDR;
 
 An incredibly simple DI pattern, that essential stores all dependencies in a HashMap and supports lookup either by class
