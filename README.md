@@ -20,9 +20,8 @@ implementation 'com.github.mycordaapp:registry:0.0.2'
 ## How it works
 
 The `Registry` simplifies a "framework less" pattern for DI whereby the dependencies are wired by passing them as
-construct parameters. The `Registry` allows a single parameter to be passed into rhe constructor. The idea is borrowed
-from the
-[Ratpack](https://ratpack.io/) MVC framework.
+construct parameters. The `Registry` allows a single parameter to be passed into the constructor. The idea is borrowed
+from the [Ratpack](https://ratpack.io/) MVC framework.
 
 As a simple example, the service Foo takes the interfaces Red and Green, and the class BlueThing as dependencies:
 
