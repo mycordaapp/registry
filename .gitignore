@@ -22,6 +22,10 @@ dist/
 # Maven
 target/
 dist/
+build/
+
+# Gradle
+.gradle/
 
 # JetBrains IDE
 .idea/

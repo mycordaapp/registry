@@ -68,7 +68,7 @@ There are two basic rules to remember:
   simple wrapper to avoid ambiguity.
 
 As an example, we now include shape interfaces, and store some implementing classes in the `Registry`.
-_TODO some of the examples below are wrong_
+_TODO, some of the examples below are wrong_
 ```kotlin
 interface Square
 interface Circle
