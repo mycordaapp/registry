@@ -59,16 +59,18 @@ val foo2 = FooService(reg)
 
 It is an implementation decision whether to include a regular constructor as well.
 
-There are two basic rules to remember:
+There are three simple rules to remember:
 
 * The `Registry` mutates. If you want to keep a "safe" copy long term, it is best to call `clone()`. Of course if the
   dependencies are extracted immediately in the constructor this is never a problem.
 * The lookup is either by interface or class, but in both cases there must only be a single instance that matches. This
   obviously makes use of generic interfaces and classes problematic. In some cases it might be necessary to construct a
   simple wrapper to avoid ambiguity.
+* The `Registry` is not thread safe. Application initialisation code that stores in the `Registry` should be single
+  threaded.
 
 As an example, we now include shape interfaces, and store some implementing classes in the `Registry`.
-_TODO, some of the examples below are wrong_
+
 ```kotlin
 interface Square
 interface Circle
@@ -79,7 +81,9 @@ class GreenCircle : GreenThing(), Circle {}
 class ASquare : Square {}
 class ATriangle : Triangle {}
 
-reg.store(GreenSquare()).store(GreenCircle()).store(ASquare())
+reg.store(GreenSquare())
+  .store(GreenCircle())
+  .store(ASquare())
 
 // fine, only one Circle
 val circle = reg.get(Circle::class.java)
@@ -90,8 +94,8 @@ val blueThing = reg.get(BlueThing::class.java)
 // fails - what type of Square. GreenSquare or ASquare?
 val square = reg.get(Square::class.java)
 
-// fails - there are no Triangles enSquare, GreenCircle or just a plain old GreenThing?  
-val greenThing = reg.get(Triangle::class.java)
+// fails - there are 2 classes with GreenThing in their hierarchy
+val greenThing = reg.get(GreenThing::class.java)
 
 // fails - no Triangle stored in the repo 
 val triangle = reg.get(Triangle::class.java)
