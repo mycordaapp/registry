@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry)
 
-## TLDR;
+## Overview 
 
 An incredibly simple DI pattern, that essential stores all dependencies in a HashMap and supports lookup either by class
 or interface name.
@@ -62,7 +62,7 @@ It is an implementation decision whether to include a regular constructor as wel
 There are three simple rules to remember:
 
 * The `Registry` mutates. If you want to keep a "safe" copy long term, it is best to call `clone()`. Of course if the
-  dependencies are extracted immediately in the constructor this is never a problem.
+  dependencies are extracted immediately in the constructor this is rarely a problem.
 * The lookup is either by interface or class, but in both cases there must only be a single instance that matches. This
   obviously makes use of generic interfaces and classes problematic. In some cases it might be necessary to construct a
   simple wrapper to avoid ambiguity.
