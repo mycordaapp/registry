@@ -150,7 +150,6 @@ class InterfaceAImplOne : InterfaceA
 
 class InterfaceAPlusImpl : InterfaceAPlus{
     override fun foo() {
-        TODO("Not yet implemented")
     }
 }
 

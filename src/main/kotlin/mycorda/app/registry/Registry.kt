@@ -10,14 +10,8 @@ import java.util.HashMap
 @Suppress("UNCHECKED_CAST")
 class Registry {
     private var registry: MutableMap<Class<*>, Any> = HashMap()
-    private var registryByName: MutableMap<String, Any> = HashMap()
 
-
-    constructor() {}
-
-    constructor(reg: Map<Class<*>, Any>) {
-        registry = HashMap(reg)
-    }
+    constructor()
 
     constructor(`object`: Any) {
         registry[`object`.javaClass] = `object`
@@ -29,12 +23,23 @@ class Registry {
         }
     }
 
+    // only used byu clone() method
+    private constructor(reg: Map<Class<*>, Any>) {
+        registry = HashMap(reg)
+    }
+
+    /*
+      Store an object in the registry
+     */
     fun store(`object`: Any): Registry {
         registry[`object`.javaClass] = `object`
-        registryByName.clear()
         return this
     }
 
+    /*
+      Find an object by class or interface name. The name
+      must be fully qualified.
+     */
     fun get(clazzName: String): Any {
         val matches = HashSet<Any>()
 
@@ -46,7 +51,6 @@ class Registry {
                     matches.add(value)
                 }
             }
-            // interface logic
         } else {
             for ((_, value) in registry) {
                 if (value::class.qualifiedName == clazzName) {
@@ -59,17 +63,19 @@ class Registry {
                     if (clazzName == superClazz.name) {
                         matches.add(value)
                     }
-
                     superClazz = superClazz.superclass as Class<Any>
                 }
             }
 
         }
-        if (matches.isEmpty()) throw RuntimeException("Class $clazzName in not in the registry")
-        if (matches.size > 1) throw RuntimeException("Class $clazzName in the registry multiple times - ${matches.joinToString()}")
-        return matches.first()
+        if (matches.isEmpty()) throw NotFoundException(clazzName)
+        if (matches.size > 1) throw DuplicateException(clazzName, matches as Set<Any>)
+        return matches.single()
     }
 
+    /*
+      Find an object by class or interface.
+     */
     fun <T> get(clazz: Class<T>): T {
         val matches = HashSet<T>()
         if (registry.containsKey(clazz)) {
@@ -95,24 +101,24 @@ class Registry {
             }
         }
 
-        if (matches.isEmpty()) throw RuntimeException("Class $clazz in not in the registry")
-        if (matches.size > 1) throw RuntimeException("Class $clazz in the registry multiple times - ${matches.joinToString()}")
-        return matches.first()
+        if (matches.isEmpty()) throw NotFoundException(clazz.name)
+        if (matches.size > 1) throw DuplicateException(clazz.name, matches as Set<Any>)
+        return matches.single()
     }
 
-    fun <T> geteOrElse(clazz: Class<T>, other: T): T {
-        try {
-            return get(clazz)
+    fun <T> getOrElse(clazz: Class<T>, other: T): T {
+        return try {
+            get(clazz)
         } catch (ex: RuntimeException) {
-            return other
+            other
         }
     }
 
     fun <T> getOrNull(clazz: Class<T>): T? {
-        try {
-            return get(clazz)
+        return try {
+            get(clazz)
         } catch (ex: RuntimeException) {
-            return null
+            null
         }
     }
 
@@ -127,6 +133,36 @@ class Registry {
 
     fun <T> missing(clazz: Class<T>): Boolean {
         return !contains(clazz)
+    }
+
+    fun <T> getOrElse(clazzName: String, other: Any): Any {
+        return try {
+            get(clazzName)
+        } catch (ex: RuntimeException) {
+            other
+        }
+    }
+
+    fun <T> getOrNull(clazzName: String): Any? {
+        return try {
+            get(clazzName)
+        } catch (ex: RuntimeException) {
+            null
+        }
+    }
+
+
+    fun contains(clazzName: String): Boolean {
+        return try {
+            get(clazzName)
+            true
+        } catch (ex: RuntimeException) {
+            false
+        }
+    }
+
+    fun <T> missing(clazzName: String): Boolean {
+        return !contains(clazzName)
     }
 
     fun flush() {
@@ -145,6 +181,13 @@ class Registry {
         registry.entries.forEach { cloned.put(it.key, it.value) }
         return Registry(cloned)
     }
+
+    class NotFoundException(clazzName: String) :
+        RuntimeException("Class or Interface `$clazzName` in not in the registry")
+
+    class DuplicateException(clazzName: String, matches: Set<Any>) :
+        RuntimeException("Class or Interface `$clazzName` is in the registry multiple times - ${matches.joinToString()}\"")
+
 }
 
 
