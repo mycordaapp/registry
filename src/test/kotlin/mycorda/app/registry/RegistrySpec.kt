@@ -98,6 +98,36 @@ class RegistrySpec {
         // earlier registry is unaltered
         assertThat(withClassA.contains(ClassB::class.java), equalTo(false))
     }
+
+    @Test
+    fun `should store and load a class by full name`() {
+        val a = ClassA()
+        val b = ClassB()
+        val registry = Registry(a, b)
+
+        assertThat(registry.get(ClassA::class.qualifiedName!!), sameInstance(a as Any))
+        assertThat(registry.get(ClassB::class.qualifiedName!!), sameInstance(b as Any))
+        assertThat({ registry.get(ClassC::class.qualifiedName!!) }, throws<RuntimeException>())
+    }
+
+    @Test
+    fun `should store and load an extended class by full name`() {
+        val cplus = ClassCPlus()
+        val registry = Registry(cplus)
+
+        assertThat(registry.get(ClassCPlus::class.qualifiedName!!), sameInstance(cplus as Any))
+        assertThat(registry.get(ClassC::class.qualifiedName!!), sameInstance(cplus as Any))
+    }
+
+    @Test
+    fun `should store and load through interface hierarchy`() {
+        val impl = InterfaceAPlusImpl()
+        val registry = Registry(impl)
+
+        assertThat(registry.get(InterfaceAPlusImpl::class.qualifiedName!!), sameInstance(impl as Any ))
+        assertThat(registry.get(InterfaceAPlus::class.qualifiedName!!), sameInstance(impl as Any ))
+        assertThat(registry.get(InterfaceA::class.qualifiedName!!), sameInstance(impl as Any))
+    }
 }
 
 class ClassA

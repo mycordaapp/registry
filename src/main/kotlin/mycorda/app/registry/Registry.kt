@@ -10,6 +10,8 @@ import java.util.HashMap
 @Suppress("UNCHECKED_CAST")
 class Registry {
     private var registry: MutableMap<Class<*>, Any> = HashMap()
+    private var registryByName: MutableMap<String, Any> = HashMap()
+
 
     constructor() {}
 
@@ -29,7 +31,43 @@ class Registry {
 
     fun store(`object`: Any): Registry {
         registry[`object`.javaClass] = `object`
+        registryByName.clear()
         return this
+    }
+
+    fun get(clazzName: String): Any {
+        val matches = HashSet<Any>()
+
+        if (Class.forName(clazzName).isInterface) {
+            val clazz = Class.forName(clazzName)
+            for ((_, value) in registry) {
+
+                if (clazz.isAssignableFrom(value.javaClass)) {
+                    matches.add(value)
+                }
+            }
+            // interface logic
+        } else {
+            for ((_, value) in registry) {
+                if (value::class.qualifiedName == clazzName) {
+                    matches.add(value)
+                }
+
+                // check subclasses
+                var superClazz = value.javaClass.superclass as Class<Any>
+                while (superClazz.name != "java.lang.Object") {
+                    if (clazzName == superClazz.name) {
+                        matches.add(value)
+                    }
+
+                    superClazz = superClazz.superclass as Class<Any>
+                }
+            }
+
+        }
+        if (matches.isEmpty()) throw RuntimeException("Class $clazzName in not in the registry")
+        if (matches.size > 1) throw RuntimeException("Class $clazzName in the registry multiple times - ${matches.joinToString()}")
+        return matches.first()
     }
 
     fun <T> get(clazz: Class<T>): T {
