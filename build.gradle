@@ -27,7 +27,7 @@ targetCompatibility = 1.8
 // https://jitpack.io/com/github/mycordaapp/registry/<version>
 //
 group "com.github.mycordaapp"
-version "0.0.2"
+version "0.0.3"
 
 repositories {
     mavenCentral()

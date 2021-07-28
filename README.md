@@ -2,12 +2,12 @@
 
 [![Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry)
 
-## Overview 
+## Overview
 
 An incredibly simple DI pattern, that essential stores all dependencies in a HashMap and supports lookup either by class
 or interface name.
 
-Deployed to [jitpack](https://jitpack.io/com/github/mycordaapp/registry/0.0.2). To include in your project, if using
+Deployed to [jitpack](https://jitpack.io/com/github/mycordaapp/registry/0.0.3). To include in your project, if using
 gradle:
 
 ```groovy 
@@ -80,11 +80,11 @@ class GreenSquare : GreenThing(), Square {}
 class GreenCircle : GreenThing(), Circle {}
 class ASquare : Square {}
 class ATriangle : Triangle {}
-class MySpecialGreenThing : GreenThing()
+class MySpecialGreenThing : GreenThing() {}
 
 reg.store(GreenSquare())
-  .store(GreenCircle())
-  .store(ASquare())
+    .store(GreenCircle())
+    .store(ASquare())
 
 // fine, only one Circle
 val circle = reg.get(Circle::class.java)
@@ -104,7 +104,7 @@ val triangle = reg.get(Triangle::class.java)
 // fine - we use the default ATriangle
 val triangle = reg.getOrElse(Triangle::class.java, ATriangle())
 
-// fine - even though there are multiple GreenThing class, there is a default provided
+// fine - even though there are multiple GreenThing classes, there is a default provided
 val greenThing = reg.getOrElse(GreenThing::class.java, MySpecialGreenThing())
 ```
 
@@ -122,9 +122,9 @@ data class DatabaseConnectionString(val connection: String)
 reg.store(DatabaseConnectionString("db=foo;user=root;password=secret"))
 ```
 
-In some cases there maybe just a class name (one example may be when passing 
-information over an API, we make use of this pattern in the Tasks project), so there are also variants that work through  
-a fully qualified class name. 
+In some cases there maybe just a class name (one example may be when passing information over an API - there is use of
+this pattern in the [Tasks](https://github.com/mycordaapp/tasks) project). To support this there are also variants that
+work through a fully qualified class name. See below:
 
 ```kotlin
 // assume all the setup code above 
@@ -142,9 +142,14 @@ val triangle = reg.getOrElse("com.example.Triangle", ATriangle())
 
 ```
 
+In this usecase, there are two advantages in using the registry over custom code:
+
+* the necessary reflections code is already written
+* the registry is a natural "sandbox", and will guard against malicious attacks to instantiate unexpected classes
+
 ## Benefits of this approach
 
-* **minimal dependencies** - `Registry` is just one hundred or so lines of code.
+* **minimal dependencies** - `Registry` is under two hundred lines of code.
 * **very lightweight** - no hidden startup time while classes are scanned for annotations and a dependency tree is built
   in memory
 * **encourages good design** - some will argue this point, but my personal experience has been that explicitly wiring up
