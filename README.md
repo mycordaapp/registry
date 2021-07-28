@@ -80,6 +80,7 @@ class GreenSquare : GreenThing(), Square {}
 class GreenCircle : GreenThing(), Circle {}
 class ASquare : Square {}
 class ATriangle : Triangle {}
+class MySpecialGreenThing : GreenThing()
 
 reg.store(GreenSquare())
   .store(GreenCircle())
@@ -102,6 +103,9 @@ val triangle = reg.get(Triangle::class.java)
 
 // fine - we use the default ATriangle
 val triangle = reg.getOrElse(Triangle::class.java, ATriangle())
+
+// fine - even though there are multiple GreenThing class, there is a default provided
+val greenThing = reg.getOrElse(GreenThing::class.java, MySpecialGreenThing())
 ```
 
 Common interfaces and classes don't work well as they are too likely to be ambiguous. In practice this is rarely a
@@ -116,6 +120,26 @@ reg.store("db=foo;user=root;password=secret")
 // Instead create a simple wrapping class
 data class DatabaseConnectionString(val connection: String)
 reg.store(DatabaseConnectionString("db=foo;user=root;password=secret"))
+```
+
+In some cases there maybe just a class name (one example may be when passing 
+information over an API, we make use of this pattern in the Tasks project), so there are also variants that work through  
+a fully qualified class name. 
+
+```kotlin
+// assume all the setup code above 
+
+// finding a Circle by class name. Note an explicit 
+// cast may be necessary 
+val circle = reg.get("com.example.Circle") as Circle
+
+// fails. Must pass a fully qualified name
+val circle = reg.get("Circle") as Circle
+
+// For completeness, all the helper methods are available when looking up 
+// by class name, though in most cases they are probably of limited use,
+val triangle = reg.getOrElse("com.example.Triangle", ATriangle())
+
 ```
 
 ## Benefits of this approach
