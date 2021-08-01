@@ -17,7 +17,7 @@ gradle:
 maven { url "https://jitpack.io" }
 
 \\ include the dependency 
-implementation 'com.github.mycordaapp:registry:0.0.2'
+implementation 'com.github.mycordaapp:registry:0.0.3'
 ```
 
 ## How it works
