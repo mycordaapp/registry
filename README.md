@@ -1,10 +1,7 @@
 # The 'Registry' Dependency Injection (DI) Pattern
 
-[![Travis Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry)
-
-[![Circle CI](https://circleci.com/gh/mycordaapp/registry.svg?style=svg)](https://circleci.com/gh/mycordaapp/registry)
-
-
+[![Travis Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry) [travis]
+[![Circle CI](https://circleci.com/gh/mycordaapp/registry.svg?style=svg)](https://circleci.com/gh/mycordaapp/registry) [circleci]
 [![Licence Status](https://img.shields.io/github/license/mycordaapp/registry)](https://github.com/mycordaapp/registry/blob/master/licence.txt)
 
 ## Overview
