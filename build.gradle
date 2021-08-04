@@ -58,6 +58,5 @@ dependencies {
 
     testCompile("com.natpryce:hamkrest:1.7.0.0")
     testCompile("junit:junit:4.12")
-
 }
 
