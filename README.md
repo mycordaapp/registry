@@ -1,7 +1,6 @@
 # The 'Registry' Dependency Injection (DI) Pattern
 
-[![Travis Build Status](https://travis-ci.com/mycordaapp/registry.svg?branch=master)](https://travis-ci.com/mycordaapp/registry) [travis]
-[![Circle CI](https://circleci.com/gh/mycordaapp/registry.svg?style=svg)](https://circleci.com/gh/mycordaapp/registry) [circleci]
+[![Circle CI](https://circleci.com/gh/mycordaapp/registry.svg?style=shield)](https://circleci.com/gh/mycordaapp/registry)
 [![Licence Status](https://img.shields.io/github/license/mycordaapp/registry)](https://github.com/mycordaapp/registry/blob/master/licence.txt)
 
 ## Overview
@@ -9,8 +8,8 @@
 An incredibly simple DI pattern, that essential stores all dependencies in a HashMap and supports lookup either by class
 or interface name.
 
-Deployed to [jitpack](https://jitpack.io/com/github/mycordaapp/registry/0.0.3). To include in your project, if using
-gradle:
+Deployed to [jitpack](https://jitpack.io). See [releases](https://github.com/mycordaapp/registry/releases) for version
+details. To include in your project, if using gradle:
 
 ```groovy 
 
@@ -18,8 +17,10 @@ gradle:
 maven { url "https://jitpack.io" }
 
 \\ include the dependency 
-implementation 'com.github.mycordaapp:registry:0.0.3'
+implementation 'com.github.mycordaapp:registry:<version>'
 ```
+
+_JitPack build status is at https://jitpack.io/com/github/mycordaapp/registry/$releaseTag/build.log_
 
 ## How it works
 
@@ -71,7 +72,7 @@ There are three simple rules to remember:
 * The `Registry` is not thread safe. Application initialisation code that stores in the `Registry` should be single
   threaded.
 
-As an example, we now include shape interfaces, and store some implementing classes in the `Registry`.
+As an example, we now include shape interfaces and store some implementing classes in the `Registry`.
 
 ```kotlin
 interface Square
