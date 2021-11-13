@@ -31,6 +31,9 @@ jobs:
 
       - run: ./gradlew dependencies
 
+      # run tests!
+      - run: ./gradlew clean testClasses
+
 
       # run tests!
       - run: ./gradlew test
