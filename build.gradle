@@ -53,14 +53,14 @@ dependencies {
     testImplementation('org.junit.platform:junit-platform-runner:1.0.0')
 }
 
-//test {
-//    // set heap size for the test JVM(s)
-//    minHeapSize = "128m"
-//    maxHeapSize = "256m"
-//
-//    testLogging {
-//        events "passed", "skipped", "failed"
-//        exceptionFormat "full"
-//    }
-//
-//}
+test {
+    // set heap size for the test JVM(s)
+    minHeapSize = "64m"
+    maxHeapSize = "256m"
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+
+}
