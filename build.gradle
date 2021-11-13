@@ -59,10 +59,7 @@ test {
     maxHeapSize = "256m"
 
     filter {
-
-        // exclude specific method in any of the tests
-        // method name like `test_stress_passed()`, test_stress_timeout()` in any tests will be excluded.
-        // this is flexible and powerful filtering, need extra care.
+        // causing problems under CircleCI
         excludeTestsMatching "mycorda.app.registry.snippet"
     }
 
