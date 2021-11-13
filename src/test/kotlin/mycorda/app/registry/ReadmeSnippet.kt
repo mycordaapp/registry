@@ -1,4 +1,8 @@
-package mycorda.app.registry
+package mycorda.app.registry.snippet
+
+import mycorda.app.registry.Registry
+import org.junit.jupiter.api.Disabled
+@Disabled
 
 // snippets of code for the README
 
