@@ -3,8 +3,6 @@ package mycorda.app.registry
 import java.util.HashMap
 
 /**
- * ** Copied from Azure Workbench - move into a commons jar **
- *
  * Simple registry for basic DI
  */
 @Suppress("UNCHECKED_CAST")
@@ -90,7 +88,6 @@ class Registry {
                 }
             }
 
-
             // check subclasses
             var superClazz = value.javaClass.superclass as Class<Any>
             while (superClazz.name != "java.lang.Object") {
@@ -150,7 +147,6 @@ class Registry {
             null
         }
     }
-
 
     fun contains(clazzName: String): Boolean {
         return try {
