@@ -34,9 +34,8 @@ jobs:
       # run tests!
       - run: ./gradlew clean testClasses
 
-
       # run tests!
-      - run: ./gradlew test
+      - run: ./gradlew clean test
 
       - store_test_results:
-          path: build/reports
+          path: build/test-results
