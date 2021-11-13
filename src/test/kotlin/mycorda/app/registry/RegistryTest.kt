@@ -13,7 +13,6 @@ import java.util.concurrent.Executors
 import org.junit.jupiter.api.Test
 
 
-@Disabled
 class RegistryTest {
 
     @Test

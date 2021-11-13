@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:11.0.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -20,7 +20,7 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
+      JVM_OPTS: -Xmx1024m
       TERM: dumb
 
     steps:
@@ -35,7 +35,7 @@ jobs:
       - run: ./gradlew clean testClasses
 
       # run tests!
-      - run: ./gradlew clean test
+      - run: ./gradlew  test
 
       - store_test_results:
           path: build/test-results
