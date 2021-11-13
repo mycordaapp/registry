@@ -4,11 +4,13 @@ import com.natpryce.hamkrest.sameInstance
 import com.natpryce.hamkrest.throws
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Test
 
 import java.util.concurrent.AbstractExecutorService
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
+import org.junit.jupiter.api.Test
+
 
 class RegistrySpec {
 
