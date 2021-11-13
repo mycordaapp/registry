@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
 import org.junit.jupiter.api.Test
 
 
-class RegistrySpec {
+class RegistryTest {
 
     @Test
     fun `should store and load a class`() {
