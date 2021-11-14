@@ -18,5 +18,5 @@ interface Registrar {
      * unit tests and dev, where it is probably ok to add any missing dependencies dynamically
      * and production where its probably better to fail
      */
-    fun register(registry: Registry, strict: Boolean = false)
+    fun register(registry: Registry = Registry(), strict: Boolean = false) : Registry
 }
