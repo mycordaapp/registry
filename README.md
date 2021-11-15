@@ -150,6 +150,43 @@ In this usecase, there are two advantages in using the registry over custom code
 * the necessary reflections code is already written
 * the registry is a natural "sandbox", and will guard against malicious attacks to instantiate unexpected classes
 
+## The `Registrar`
+
+In many situations it is nice to provide a standard way to register all the dependencies for a module in a single
+method. The `Registrar` interface simply provides a standard convention.
+
+```kotlin
+interface Registrar {
+    /**
+     * The intention is that each module will expose one or more Registrars
+     * to its clients, and that these will automatically all the necessary
+     * objects in the registry by calling this method
+     *
+     * The `strict` parameter is mainly intended to deal with the difference between
+     * unit tests and dev, where it is probably ok to add any missing dependencies dynamically
+     * and production where its probably better to fail.
+     */
+    fun register(registry: Registry = Registry(), strict: Boolean = false): Registry
+}
+```
+
+In tests this can often be a 1 liner:
+
+```kotlin
+val registry = MyModuleRegisrar().register()
+
+```
+
+In real code it better to use the strict param and explicitly state any important dependencies at the start:
+
+```kotlin
+val registry = Registry()
+// be explicit in the tyoe of EventStore
+registry.store(FileEventStore("/data/events"))
+MyFirstModuleRegistrar().register(registry, true)
+MySecondModuleRegistrar().register(registry, true)
+```
+
 ## Benefits of this approach
 
 * **minimal dependencies** - `Registry` is under two hundred lines of code.

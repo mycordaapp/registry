@@ -16,7 +16,7 @@ interface Registrar {
      *
      * The `strict` parameter is mainly intended to deal with the difference between
      * unit tests and dev, where it is probably ok to add any missing dependencies dynamically
-     * and production where its probably better to fail
+     * and production where its probably better to fail.
      */
-    fun register(registry: Registry = Registry(), strict: Boolean = false) : Registry
+    fun register(registry: Registry = Registry(), strict: Boolean = false): Registry
 }
